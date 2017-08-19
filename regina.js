@@ -18,9 +18,9 @@ regina.use(morgan('combined')) // Active le middleware de logging
 * Find
 */
 regina
-.get('/find/:coll/:q/:opt', function(req, res) {
+.get('/find/:coll', function(req, res) {
   db.get(req.params.coll)
-  .find(JSON.parse(req.params.q),JSON.parse(req.params.opt))
+  .find({})
   .then((docs) => {
     res.json(docs);
   })
@@ -32,13 +32,14 @@ regina
     res.json(docs);
   })
 })
-.get('/find/:coll', function(req, res) {
+.get('/find/:coll/:q/:opt', function(req, res) {
   db.get(req.params.coll)
-  .find({})
+  .find(JSON.parse(req.params.q),JSON.parse(req.params.opt))
   .then((docs) => {
     res.json(docs);
   })
-});
+})
+;
 
 
 
@@ -46,42 +47,46 @@ regina
 * FindOne
 */
 regina
-.get('/find/one/:coll/:q/:opt', function(req, res) {
+.get('/findone/:coll', function(req, res) {
   db.get(req.params.coll)
-  .findOne(JSON.parse(req.params.q),JSON.parse(req.params.opt))
+  .findOne({})
   .then((docs) => {
     res.json(docs);
   })
 })
-.get('/find/one/:coll/:q', function(req, res) {
+.get('/findone/:coll/:q', function(req, res) {
   db.get(req.params.coll)
   .findOne(JSON.parse(req.params.q))
   .then((docs) => {
     res.json(docs);
   })
 })
-.get('/find/one/:coll', function(req, res) {
+.get('/findone/:coll/:q/:opt', function(req, res) {
   db.get(req.params.coll)
-  .findOne({})
+  .findOne(JSON.parse(req.params.q),JSON.parse(req.params.opt))
   .then((docs) => {
     res.json(docs);
   })
-});
-
-
-
-
-
-
-regina.post('/insert', function(req, res) {
-
 })
-.put('/update/one/', function(req, res) {
+;
 
+
+
+/*
+* Insert
+*/
+regina
+.post('/insert/:coll', function(req, res) {
+  db.get(req.params.coll)
+  .insert(req.body.docs,req.body.opt === undefined ?{} : req.body.opt)
+  .then((docs) => {
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(200, 'OK!');
+  })
 })
-.put('/update/multy/', function(req, res) {
+;
 
-});
+
 
 
 
