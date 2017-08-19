@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head><title>Hello Regina</title></head>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io('/my-namespace');
+	  socket.on('hi',function(data){
+			  document.body.innerHTML = '';
+			  document.write(data);
+	  });
+	</script>
+	<body></body>
+</html>

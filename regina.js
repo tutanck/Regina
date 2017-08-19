@@ -1,22 +1,30 @@
-var bodyParser = require('body-parser'); // Charge le middleware de gestion des paramètres
-var express = require('express');
-var morgan = require('morgan'); // Charge le middleware de logging
+//Config
+var port = 3009;
+var discreet = false;
+var db = 'localhost:27017/reginadb'; //TODO : configurable
+
+//express http server
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+//mongo stuffs
 var mongo = require('mongodb');
 var monk = require('monk');
 
-var dblocation = 'localhost:27017/reginadb';
-var db = monk(dblocation); //load reginadb
+//regina
+var regina = monk(db); //database handler
 
-var regina = express();
 
-regina.use(morgan('combined')) // Active le middleware de logging
-.use(bodyParser.json())
-.use(bodyParser.urlencoded({ extended: false }));
+app
+.get('/', function(req, res){
+  res.sendfile(discreet ? 'index.html' : 'index.html');
+});
 
 
 /*
 * Find
-*/
+*
 regina
 .get('/find/:coll', function(req, res) {
   db.get(req.params.coll)
@@ -45,7 +53,7 @@ regina
 
 /*
 * FindOne
-*/
+*
 regina
 .get('/findone/:coll', function(req, res) {
   db.get(req.params.coll)
@@ -74,7 +82,7 @@ regina
 
 /*
 * Insert
-*/
+*
 regina
 .post('/insert/:coll', function(req, res) {
   db.get(req.params.coll)
@@ -85,17 +93,19 @@ regina
   })
 })
 ;
+*/
 
 
 
 
-
-regina
+app
 .use(function(req, res, next){
   res.setHeader('Content-Type', 'text/plain');
-  res.send(404, 'Regina : Unknown service !');
+  res.send(404, 'Not Found !');
 });
 
-console.log("Regina is ready to talk with '"+dblocation+"' !");
 
-regina.listen(8080);
+server
+.listen(port, function(){
+  console.log("Regina is ready to talk with MongoDB about '"+db+"' on port '"+port+"' !");
+});
