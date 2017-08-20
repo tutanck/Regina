@@ -1,6 +1,7 @@
 //Config
 var port = 3009;
 var discreet = false;
+var debug = true;
 var db = 'localhost:27017/reginadb'; //TODO : configurable
 
 //express http server
@@ -24,28 +25,75 @@ app
 
 io.sockets.on('connection', function (socket) {
 
-  /*
-  * Find
-  */
+  /**
+  * find  */
   socket.on('find',(coll, q, opt, ack) => {
-    console.log("* find request received :[\n",coll,q,opt,ack,"\n]"); //debug
+    welcome('find',coll, q, opt, ack)
 
-    if(ack == null){
-      return noack(socket);
-    }
-    if(coll == null){
-      return ack({
-        error : "'coll' is undefined"
-      });
-    }
-    else
-    regina.get(coll).find(q,opt).then((docs) => {
-      console.log(docs)
-      ack(null,docs);
+    if(ack == null) return handlErr(0,'find',socket)
+
+    if(coll == null) return handlErr(1,'find',socket,ack)
+
+    else regina.get(coll).find(q,opt).then((docs) => {
+      reply('find',ack,null,docs)
     })
-    //end : socket.on('find'
+    //end : socket.on('find
   });
 
+
+  /**
+  * findOne  */
+  socket.on('findOne',(coll, q, opt, ack) => {
+    welcome('findOne',coll, q, opt, ack)
+
+    if(ack == null) return handlErr(0,'findOne',socket)
+
+    if(coll == null) return handlErr(1,'findOne',socket,ack)
+
+    else regina.get(coll).findOne(q,opt).then((docs) => {
+      reply('findOne',ack,null,docs)
+    })
+    //end : socket.on('findOne
+  });
+
+
+  /**
+  * insert  */
+  socket.on('insert',(coll, docs, opt, ack) => {
+    welcome('insert',coll, docs, opt, ack)
+
+    if(ack == null) return handlErr(0,'insert',socket)
+
+    if(coll == null) return handlErr(1,'insert',socket,ack)
+
+    if(docs == null) return handlErr(2,'insert',socket,ack)
+
+    else regina.get(coll).insert(docs,opt).then((res) => {
+      reply('insert',ack,null,res)
+    })
+    //end : socket.on('insert
+  });
+
+
+  /**
+  * update  */
+  socket.on('update',(coll, q, u, opt, ack) => {
+    welcome('update',coll, q, opt, ack, u)
+
+    if(ack == null) return handlErr(0,'update',socket)
+
+    if(coll == null) return handlErr(1,'update',socket,ack)
+
+    if(q == null) return handlErr(3,'update',socket,ack)
+
+    if(u == null) return handlErr(4,'update',socket,ack)
+
+
+    else regina.get(coll).update(q,u,opt).then((res) => {
+      reply('update',ack,null,res)
+    })
+    //end : socket.on('update
+  });
 
 
 
@@ -55,54 +103,36 @@ io.sockets.on('connection', function (socket) {
 
 
 
+
+//utilities
+const reply=(f,ack,err,res)=>{
+  ack(err,res);
+  if(debug)console.log("<- '"+f+"'","replied :[\n",err,res,"\n]")
+}
+
+const handlErr = (code, f, socket, ack)=>{
+  switch(code) {
+    case 0: noack(socket,f); break;
+    case 1: ack({error : "'coll' is undefined on '"+f+"'"}); break;
+    case 2: ack({error : "'docs' is undefined on '"+f+"'"}); break;
+    case 3: ack({error : "'q' is undefined on '"+f+"'"}); break;
+    case 4: ack({error : "'u' is undefined on '"+f+"'"}); break;
+
+    default: break;
+  }
+}
+
+const noack = (socket,f)=>{
+  socket.emit('regina warning',"Warning : use of undefined 'ack' callback on '"+f+"'");
+}
+
+const welcome = (f,coll,x,opt,ack,u) =>{
+  console.log("-> '"+f+"' received :[\n",coll,x,opt,ack,u,"\n]"); //debug
+}
+
 const soften = (obj) => {
   return obj == null ? {} : obj;
 }
-
-const noack = (socket)=>{
-  socket.emit('regina warning',"Warning : use of undefined 'ack' function on 'find'");
-}
-
-/*app
-.get('/find/:coll/:q/:opt', function(req, res) {
-regina.get(req.params.coll)
-.find(JSON.parse(req.params.q),JSON.parse(req.params.opt))
-.then((docs) => {
-res.json(docs);
-})
-})
-;*/
-
-
-
-
-
-/*
-* FindOne
-*
-regina
-.get('/findone/:coll', function(req, res) {
-db.get(req.params.coll)
-.findOne({})
-.then((docs) => {
-res.json(docs);
-})
-})
-.get('/findone/:coll/:q', function(req, res) {
-db.get(req.params.coll)
-.findOne(JSON.parse(req.params.q))
-.then((docs) => {
-res.json(docs);
-})
-})
-.get('/findone/:coll/:q/:opt', function(req, res) {
-db.get(req.params.coll)
-.findOne(JSON.parse(req.params.q),JSON.parse(req.params.opt))
-.then((docs) => {
-res.json(docs);
-})
-})
-;
 
 
 

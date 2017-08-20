@@ -11,7 +11,7 @@
 
     socket.on('regina warning', (msg)=>{console.log(msg);})
 
-    socket.emit('find','teste',undefined,undefined, (err,res)=>{
+    socket.emit('update','teste',{"lol" : "undefined"},{},undefined,(err,res)=>{
      console.log(err,res);
     });
 
