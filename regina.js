@@ -88,7 +88,6 @@ io.sockets.on('connection', function (socket) {
 
     if(u == null) return handlErr(4,'update',socket,ack)
 
-
     else regina.get(coll).update(q,u,opt).then((res) => {
       reply('update',ack,null,res)
     })
@@ -96,7 +95,38 @@ io.sockets.on('connection', function (socket) {
   });
 
 
+  /**
+  * remove  */
+  socket.on('remove',(coll, q, opt, ack) => {
+    welcome('remove',coll, q, opt, ack)
 
+    if(ack == null) return handlErr(0,'remove',socket)
+
+    if(coll == null) return handlErr(1,'remove',socket,ack)
+
+    if(q == null) return handlErr(3,'remove',socket,ack)
+
+    else regina.get(coll).remove(q,opt).then((res) => {
+      reply('remove',ack,null,res)
+    })
+    //end : socket.on('remove
+  });
+
+
+  /**
+  * count  */
+  socket.on('count',(coll, q, opt, ack) => {
+    welcome('count',coll, q, opt, ack)
+
+    if(ack == null) return handlErr(0,'count',socket)
+
+    if(coll == null) return handlErr(1,'count',socket,ack)
+
+    else regina.get(coll).count(q,opt).then((res) => {
+      reply('count',ack,null,res)
+    })
+    //end : socket.on('count
+  });
 
   //end : io.sockets.on('connection'
 });
@@ -136,23 +166,7 @@ const soften = (obj) => {
 
 
 
-/*
-* Insert
-*
-regina
-.post('/insert/:coll', function(req, res) {
-db.get(req.params.coll)
-.insert(req.body.docs,req.body.opt === undefined ?{} : req.body.opt)
-.then((docs) => {
-res.setHeader('Content-Type', 'text/plain');
-res.send(200, 'OK!');
-})
-})
-;
-*/
-
-
-
+//server config
 
 app
 .use(function(req, res, next){
