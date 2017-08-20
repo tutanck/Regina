@@ -34,9 +34,12 @@ io.sockets.on('connection', function (socket) {
 
     if(coll == null) return handlErr(1,'find',socket,ack)
 
-    else regina.get(coll).find(q,opt).then((docs) => {
+    else regina.get(coll).find(q,opt)
+    .then((docs) => {
       reply('find',ack,null,docs)
-    })
+    }).catch((e) =>{
+      reply('find',ack,e)
+    });
     //end : socket.on('find
   });
 
@@ -50,9 +53,12 @@ io.sockets.on('connection', function (socket) {
 
     if(coll == null) return handlErr(1,'findOne',socket,ack)
 
-    else regina.get(coll).findOne(q,opt).then((docs) => {
+    else regina.get(coll).findOne(q,opt)
+    .then((docs) => {
       reply('findOne',ack,null,docs)
-    })
+    }).catch((e) =>{
+      reply('findOne',ack,e)
+    });
     //end : socket.on('findOne
   });
 
@@ -68,9 +74,12 @@ io.sockets.on('connection', function (socket) {
 
     if(docs == null) return handlErr(2,'insert',socket,ack)
 
-    else regina.get(coll).insert(docs,opt).then((res) => {
+    else regina.get(coll).insert(docs,opt)
+    .then((res) => {
       reply('insert',ack,null,res)
-    })
+    }).catch((e) =>{
+      reply('insert',ack,e)
+    });
     //end : socket.on('insert
   });
 
@@ -88,9 +97,12 @@ io.sockets.on('connection', function (socket) {
 
     if(u == null) return handlErr(4,'update',socket,ack)
 
-    else regina.get(coll).update(q,u,opt).then((res) => {
+    else regina.get(coll).update(q,u,opt)
+    .then((res) => {
       reply('update',ack,null,res)
-    })
+    }).catch((e) =>{
+      reply('update',ack,e)
+    });
     //end : socket.on('update
   });
 
@@ -106,9 +118,12 @@ io.sockets.on('connection', function (socket) {
 
     if(q == null) return handlErr(3,'remove',socket,ack)
 
-    else regina.get(coll).remove(q,opt).then((res) => {
+    else regina.get(coll).remove(q,opt)
+    .then((res) => {
       reply('remove',ack,null,res)
-    })
+    }).catch((e) =>{
+      reply('remove',ack,e)
+    });
     //end : socket.on('remove
   });
 
@@ -122,9 +137,12 @@ io.sockets.on('connection', function (socket) {
 
     if(coll == null) return handlErr(1,'count',socket,ack)
 
-    else regina.get(coll).count(q,opt).then((res) => {
+    else regina.get(coll).count(q,opt)
+    .then((res) => {
       reply('count',ack,null,res)
-    })
+    }).catch((e) =>{
+      reply('count',ack,e)
+    });
     //end : socket.on('count
   });
 
