@@ -15,39 +15,65 @@ var monk = require('monk');
 //regina
 var regina = monk(db); //database handler
 
-
+//Home page //TODO
 app
 .get('/', function(req, res){
-  res.sendfile(discreet ? 'index.html' : 'index.html');
+  res.sendfile(discreet ? 'index.html' : 'index.html'); //TODO : discreet.html(white page)
 });
 
 
-/*
-* Find
-*
-regina
-.get('/find/:coll', function(req, res) {
-  db.get(req.params.coll)
-  .find({})
-  .then((docs) => {
-    res.json(docs);
-  })
-})
-.get('/find/:coll/:q', function(req, res) {
-  db.get(req.params.coll)
-  .find(JSON.parse(req.params.q))
-  .then((docs) => {
-    res.json(docs);
-  })
-})
+io.sockets.on('connection', function (socket) {
+
+  /*
+  * Find
+  */
+  socket.on('find',(coll, q, opt, ack) => {
+    console.log("* find request received :[\n",coll,q,opt,ack,"\n]"); //debug
+
+    if(ack == null){
+      return noack(socket);
+    }
+    if(coll == null){
+      return ack({
+        error : "'coll' is undefined"
+      });
+    }
+    else
+    regina.get(coll).find(q,opt).then((docs) => {
+      console.log(docs)
+      ack(null,docs);
+    })
+    //end : socket.on('find'
+  });
+
+
+
+
+
+  //end : io.sockets.on('connection'
+});
+
+
+
+const soften = (obj) => {
+  return obj == null ? {} : obj;
+}
+
+const noack = (socket)=>{
+  socket.emit('regina warning',"Warning : use of undefined 'ack' function on 'find'");
+}
+
+/*app
 .get('/find/:coll/:q/:opt', function(req, res) {
-  db.get(req.params.coll)
-  .find(JSON.parse(req.params.q),JSON.parse(req.params.opt))
-  .then((docs) => {
-    res.json(docs);
-  })
+regina.get(req.params.coll)
+.find(JSON.parse(req.params.q),JSON.parse(req.params.opt))
+.then((docs) => {
+res.json(docs);
 })
-;
+})
+;*/
+
+
 
 
 
@@ -56,25 +82,25 @@ regina
 *
 regina
 .get('/findone/:coll', function(req, res) {
-  db.get(req.params.coll)
-  .findOne({})
-  .then((docs) => {
-    res.json(docs);
-  })
+db.get(req.params.coll)
+.findOne({})
+.then((docs) => {
+res.json(docs);
+})
 })
 .get('/findone/:coll/:q', function(req, res) {
-  db.get(req.params.coll)
-  .findOne(JSON.parse(req.params.q))
-  .then((docs) => {
-    res.json(docs);
-  })
+db.get(req.params.coll)
+.findOne(JSON.parse(req.params.q))
+.then((docs) => {
+res.json(docs);
+})
 })
 .get('/findone/:coll/:q/:opt', function(req, res) {
-  db.get(req.params.coll)
-  .findOne(JSON.parse(req.params.q),JSON.parse(req.params.opt))
-  .then((docs) => {
-    res.json(docs);
-  })
+db.get(req.params.coll)
+.findOne(JSON.parse(req.params.q),JSON.parse(req.params.opt))
+.then((docs) => {
+res.json(docs);
+})
 })
 ;
 
@@ -85,12 +111,12 @@ regina
 *
 regina
 .post('/insert/:coll', function(req, res) {
-  db.get(req.params.coll)
-  .insert(req.body.docs,req.body.opt === undefined ?{} : req.body.opt)
-  .then((docs) => {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send(200, 'OK!');
-  })
+db.get(req.params.coll)
+.insert(req.body.docs,req.body.opt === undefined ?{} : req.body.opt)
+.then((docs) => {
+res.setHeader('Content-Type', 'text/plain');
+res.send(200, 'OK!');
+})
 })
 ;
 */
@@ -101,7 +127,7 @@ regina
 app
 .use(function(req, res, next){
   res.setHeader('Content-Type', 'text/plain');
-  res.send(404, 'Not Found !');
+  res.send(404, 'Not Found !'); //TODO : 404.html
 });
 
 

@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
-	<head><title>Hello Regina</title></head>
-	<script src="/socket.io/socket.io.js"></script>
-	<script>
-	  var socket = io('/my-namespace');
-	  socket.on('hi',function(data){
-			  document.body.innerHTML = '';
-			  document.write(data);
-	  });
-	</script>
-	<body></body>
-</html>
+<head><title>Hello Regina</title></head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<h1>Regina<h1>
+
+  <script>
+    var socket = io();
+
+    socket.on('regina warning', (msg)=>{console.log(msg);})
+
+    socket.emit('find','teste',undefined,undefined, (err,res)=>{
+     console.log(err,res);
+    });
+
+
+  </script>
+
+
+
+  <body></body>
+  </html>
