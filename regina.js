@@ -45,25 +45,6 @@ io.sockets.on('connection', function (socket) {
 
 
   /**
-  * findOne  */
-  socket.on('findOne',(coll, q, opt, ack) => {
-    welcome('findOne',coll, q, opt, ack)
-
-    if(ack == null) return handlErr(0,'findOne',socket)
-
-    if(coll == null) return handlErr(1,'findOne',socket,ack)
-
-    else regina.get(coll).findOne(q,opt)
-    .then((docs) => {
-      reply('findOne',ack,null,docs)
-    }).catch((e) =>{
-      reply('findOne',ack,e)
-    });
-    //end : socket.on('findOne
-  });
-
-
-  /**
   * insert  */
   socket.on('insert',(coll, docs, opt, ack) => {
     welcome('insert',coll, docs, opt, ack)
