@@ -7,13 +7,18 @@
 <h1>Regina<h1>
 
   <script>
-    var socket = io();
+  var socket = io();
 
-    socket.on('regina warning', (msg)=>{console.log(msg);})
+  socket.on('warning', (msg)=>{console.log(msg);})
 
-    socket.emit('find','teste',{}, { limit : 100 },(err,res)=>{
-     console.log(err,res);
-    });
+  socket.emit('remove','teste',{"a":3},{ limit : 100 },{"tag":"#luffy"},(err,res)=>{
+    console.log(err,res);
+  });
+
+  socket.on('#luffy', (action, res, ctx) => {
+    console.log('#luffy',action,res,ctx)
+  });
+
 
 
   </script>
