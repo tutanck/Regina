@@ -32,7 +32,7 @@ io.on('connection', function (socket) {
 
   /**
   * find  */
-  socket.on('find',(coll, q, opt, ack) => {
+  socket.on('find',(coll, q, opt, meta, ack) => {
     welcome('find',coll, q, opt, ack)
 
     if(ack == null) return handlErr(0,'find',socket)
@@ -42,6 +42,11 @@ io.on('connection', function (socket) {
     regina.get(coll).find(q,opt)
     .then((docs) => {
       reply('find',ack,null,docs)
+      //  ||
+      notifyFollowers(
+        0,meta,socket,docs,
+        {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      )
     }).catch((e) =>{
       reply('find',ack,e)
     });
@@ -51,7 +56,7 @@ io.on('connection', function (socket) {
 
   /**
   * count  */
-  socket.on('count',(coll, q, opt, ack) => {
+  socket.on('count',(coll, q, opt, meta, ack) => {
     welcome('count',coll, q, opt, ack)
 
     if(ack == null) return handlErr(0,'count',socket)
@@ -61,6 +66,11 @@ io.on('connection', function (socket) {
     regina.get(coll).count(q,opt)
     .then((res) => {
       reply('count',ack,null,res)
+      //  ||
+      notifyFollowers(
+        0,meta,socket,res,
+        {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      )
     }).catch((e) =>{
       reply('count',ack,e)
     });

@@ -11,7 +11,7 @@
 
   socket.on('warning', (msg)=>{console.log(msg);})
 
-  socket.emit('remove','teste',{"a":3},{ limit : 100 },{"tag":"#luffy"},(err,res)=>{
+  socket.emit('find','teste',{"a":3},{ limit : 100 },{"tag":"#luffy"},(err,res)=>{
     console.log(err,res);
   });
 
