@@ -23,7 +23,12 @@ app
 });
 
 
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
+  console.log('Regina : socket \''+socket.id+'\' just connected');
+
+  socket.on('disconnect', function(){
+    console.log('Regina : socket \''+socket.id+'\' just disconnected');
+  });
 
   /**
   * find  */
@@ -140,7 +145,7 @@ io.sockets.on('connection', function (socket) {
   });
 
 
-  //end : io.sockets.on('connection'
+  //end : io.on('connection'
 });
 
 
