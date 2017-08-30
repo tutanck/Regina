@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
 
     if(coll == null) return handlErr(1,'find',socket,ack)
 
-    else regina.get(coll).find(q,opt)
+    regina.get(coll).find(q,opt)
     .then((docs) => {
       reply('find',ack,null,docs)
     }).catch((e) =>{
@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
 
     if(coll == null) return handlErr(1,'count',socket,ack)
 
-    else regina.get(coll).count(q,opt)
+    regina.get(coll).count(q,opt)
     .then((res) => {
       reply('count',ack,null,res)
     }).catch((e) =>{
@@ -79,9 +79,10 @@ io.on('connection', function (socket) {
 
     if(docs == null) return handlErr(2,'insert',socket,ack)
 
-    else regina.get(coll).insert(docs,opt)
+    regina.get(coll).insert(docs,opt)
     .then((res) => {
       reply('insert',ack,null,res)
+      //  ||
       notifyFollowers(
         1,meta,socket,res,
         {"coll":coll,"docs":docs,"opt":opt,"meta":meta}
@@ -106,9 +107,10 @@ io.on('connection', function (socket) {
 
     if(u == null) return handlErr(4,'update',socket,ack)
 
-    else regina.get(coll).update(q,u,opt)
+    regina.get(coll).update(q,u,opt)
     .then((res) => {
       reply('update',ack,null,res)
+      //  ||
       notifyFollowers(
         2,meta,socket,res,
         {"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
@@ -131,9 +133,10 @@ io.on('connection', function (socket) {
 
     if(q == null) return handlErr(3,'remove',socket,ack)
 
-    else regina.get(coll).remove(q,opt)
+    regina.get(coll).remove(q,opt)
     .then((res) => {
       reply('remove',ack,null,res)
+      //  ||
       notifyFollowers(
         -1,meta,socket,res,
         {"coll":coll,"q":q,"opt":opt,"meta":meta}
@@ -171,7 +174,7 @@ const handlErr = (code, f, socket, ack) => {
 
 
 /**
-* It is not important to execute notifyFollowers in the reply callback.
+* It is not important to execute notifyFollowers before the reply's callback.
 * We are already sure that the result of the write action is ready */
 const notifyFollowers = (action,meta,socket,res,ctx) => {
   if(isTaged(meta))
