@@ -110,7 +110,7 @@ io.on('connection', function (socket) {
     .then((res) => {
       reply('update',ack,null,res)
       notifyFollowers(
-        0,meta,socket,res,
+        2,meta,socket,res,
         {"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
       )
     }).catch((e) =>{
