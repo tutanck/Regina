@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>Hello Regina</title></head>
-<script src="/socket.io/socket.io.js"></script>
+<head><title>Regina</title></head>
 <script src="/socket.io/socket.io.js"></script>
 
 <h1>Regina<h1>
@@ -9,9 +8,9 @@
   <script>
   var socket = io();
 
-  socket.on('warning', (msg)=>{console.log(msg);})
+  socket.on('regina_noack', (msg)=>{console.log(msg);})
 
-  socket.emit('find','teste',{"a":3},{ limit : 100 },{"tag":"#luffy"},(err,res)=>{
+  socket.emit('find','teste',{},{ limit : 100 },{"tag":"#luffy"},(err,res)=>{
     console.log(err,res);
   });
 

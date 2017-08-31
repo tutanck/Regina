@@ -199,7 +199,7 @@ const isTaged = (meta) => {
 }
 
 const noack = (socket,f) => {
-  socket.emit('warning',"Warning : use of undefined 'ack' callback on '"+f+"'");
+  socket.emit('regina_noack',"Warning : use of undefined 'ack' callback on '"+f+"'");
 }
 
 const welcome = (f,coll,x,opt,ack,u) => {
