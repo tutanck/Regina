@@ -25,17 +25,18 @@ exports.check = (method,params) => {
     
     for (const type of typeArray){
       if(type.valid(val)){
-        console.log(val,"VALID")//debug
+        console.log(typeArray,val,"VALID")//debug
         isParamValid = true
         break;
       }else 
-      console.log(val,"NOT VALID")//debug
+      console.log(typeArray,val,"NOT VALID")//debug
     }
     
     if(!isParamValid){
       status.valid = false
       status.error = {
-        "message" : "Compilation error : invalid request",
+        "type" : "compilation error",
+        "message" : "Invalid request",
         "cause" : compileTypeErrCause(roleStr,typeArray),
         "onMethod" : method
       }

@@ -2,7 +2,6 @@
 utils
 */
 
-
 exports.soften = (obj) => {
   return obj == null ? {} : obj;
 }
@@ -13,7 +12,6 @@ exports.hey = (method,params) => {
 }
 
 const requestImage = (params)=>{
-  console.log("OPh",params)
   let str = "[\n", i=1
   for(param of params){
     str+= param.role.toString+" : "+JSON.stringify(param.val)
