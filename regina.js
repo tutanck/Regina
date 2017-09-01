@@ -58,11 +58,11 @@ io.on('connection', function (socket) {
         return reply(R.find.toString,ack,status.error)
       
       regina.get(coll).find(q,opt)
-      .then((docs) => {
-        reply(R.find.toString,ack,null,docs)
+      .then((res) => {
+        reply(R.find.toString,ack,null,res)
         //  ||
         notifyFollowers(
-          R.find.toCRUD,meta,socket,docs,
+          R.find.toCRUD,meta,socket,res,
           {"coll":coll,"q":q,"opt":opt,"meta":meta}
         )
       }).catch((e) =>{
