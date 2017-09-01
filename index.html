@@ -8,9 +8,9 @@
   <script>
   var socket = io();
 
-  socket.on('regina_noack', (msg)=>{console.log(msg);})
+  socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
 
-  socket.emit('find','teste',{},{ limit : 100 },{"tag":"#luffy"},(err,res)=>{
+  socket.emit('update',undefined,[],undefined,undefined,undefined,(err,res)=>{
     console.log(err,res);
   });
 
