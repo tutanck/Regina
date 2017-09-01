@@ -62,7 +62,7 @@ io.on('connection', function (socket) {
         reply(R.find.toString,ack,null,res)
         //  ||
         notifyFollowers(
-          R.find.toCRUD,meta,socket,res,
+          R.find.toCRUD,socket,res,
           {"coll":coll,"q":q,"opt":opt,"meta":meta}
         )
       }).catch((e) =>{
@@ -101,7 +101,7 @@ io.on('connection', function (socket) {
         reply(R.count.toString,ack,null,res)
         //  ||
         notifyFollowers(
-          R.count.toCRUD,meta,socket,res,
+          R.count.toCRUD,socket,res,
           {"coll":coll,"q":q,"opt":opt,"meta":meta}
         )
       }).catch((e) =>{
@@ -140,7 +140,7 @@ io.on('connection', function (socket) {
         reply(R.insert.toString,ack,null,res)
         //  ||
         notifyFollowers(
-          R.insert.toCRUD,meta,socket,res,
+          R.insert.toCRUD,socket,res,
           {"coll":coll,"docs":docs,"opt":opt,"meta":meta}
         )
       }).catch((e) =>{
@@ -180,7 +180,7 @@ io.on('connection', function (socket) {
         reply(R.update.toString,ack,null,res)
         //  ||
         notifyFollowers(
-          R.update.toCRUD,meta,socket,res,
+          R.update.toCRUD,socket,res,
           {"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
         )
       }).catch((e) =>{
@@ -219,7 +219,7 @@ io.on('connection', function (socket) {
         reply(R.remove.toString,ack,null,res)
         //  ||
         notifyFollowers(
-          R.remove.toCRUD,meta,socket,res,
+          R.remove.toCRUD,socket,res,
           {"coll":coll,"q":q,"opt":opt,"meta":meta}
         )
       }).catch((e) =>{
@@ -246,9 +246,10 @@ io.on('connection', function (socket) {
   /**
   * It is not important to execute notifyFollowers before the reply's callback.
   * We are already sure that the result of the write action is ready */
-  const notifyFollowers = (action,meta,socket,res,ctx) => {
+  const notifyFollowers = (op,socket,res,ctx) => {
+    let meta = ctx.meta
     if(isTaged(meta))
-      socket.broadcast.emit(meta.tag,action,res,ctx);
+      socket.broadcast.emit(meta.tag,op,res,ctx);
   }
   
   

@@ -10,12 +10,12 @@
 
   socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
 
-  socket.emit('insert','teste',{},undefined,undefined,(err,res)=>{
+  socket.emit('insert','teste',[1,2,3],{},{"tag":"#luffy"},(err,res)=>{
     console.log(err,res);
   });
 
-  socket.on('#luffy', (action, res, ctx) => {
-    console.log('#luffy',action,res,ctx)
+  socket.on('#luffy', (op, res, ctx) => {
+    console.log('#luffy',op,res,ctx)
   });
 
 
