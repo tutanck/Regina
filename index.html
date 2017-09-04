@@ -11,8 +11,9 @@
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
     socket.emit(
-    'insert'
+    'update'
     ,'user_profiles'
+    ,{"a":1}//,{"b":2},{"c":3},{"a":1, "lol":2}]
     ,{}
     ,{}
     ,{"tags":[{"val" : "#luffy"}]}

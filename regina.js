@@ -129,10 +129,12 @@ io.on('connection', function (socket) {
           { val : meta, role : Role.meta }
         ]
       );
-      
+            
       if(!status.valid)
         return reply(R.insert.toString,ack,status.error)
       
+      utils.timestamp(docs) //Server side timestamp is much more reliable 
+
       regina.get(coll).insert(docs,opt)
       .then((res) => {
         reply(R.insert.toString,ack,null,res)
@@ -171,6 +173,8 @@ io.on('connection', function (socket) {
       
       if(!status.valid)
         return reply(R.update.toString,ack,status.error)
+
+      utils.timestamp(u) //Server side timestamp is much more reliable 
       
       regina.get(coll).update(q,u,opt)
       .then((res) => {
@@ -244,14 +248,14 @@ io.on('connection', function (socket) {
   * We are already sure that the result of the write action is ready */
   const notifyFollowers = (op,socket,res,ctx) => {
     let meta = utils.soften(ctx.meta)
-    console.log("meta", meta)
+    console.log("meta", meta) //debug
     let tags = Type.arr.valid(meta.tags) ? meta.tags : []
-    console.log("tags", tags)
+    console.log("tags", tags) //debug
     for(tag of tags) {
       let val = tag.val
       let kind = tag.kind
-      console.log("tag-kind", kind)
-      console.log("tag-val", val)
+      console.log("tag-kind", kind) //debug
+      console.log("tag-val", val) //debug
       switch(kind) {
         case "emit":{
           socket.emit(val,op,res,ctx); 

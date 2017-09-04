@@ -21,3 +21,13 @@ const requestImage = (params)=>{
   }
   return str+="\n]"
 }
+
+//Server side timestamp is much more reliable
+exports.timestamp = (docs) => {
+  let date = new Date()
+  if(Array.isArray(docs)) //docs is an array
+    for(doc of docs)
+      doc._date = date
+  else //docs is an object
+    docs._date = date
+}
