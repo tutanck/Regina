@@ -15,6 +15,7 @@ var monk = require('monk');
 
 //internal machinery
 var R = require('./R')
+var Type = require('./Type')
 var Role = require('./Role')
 var utils = require('./utils')
 var compiler = require('./compiler')
@@ -50,8 +51,7 @@ io.on('connection', function (socket) {
         { val : coll, role : Role.coll },
         { val : q, role : Role.q },
         { val : opt, role : Role.opt },
-        { val : meta, role : Role.meta },
-        { val : ack, role : Role.ack }
+        { val : meta, role : Role.meta }
       ]);
       
       if(!status.valid)
@@ -71,11 +71,11 @@ io.on('connection', function (socket) {
       //end : socket.on('find
     });
     
-
-
-
-
-
+    
+    
+    
+    
+    
     
     /**
     * count  */
@@ -88,8 +88,7 @@ io.on('connection', function (socket) {
           { val : coll, role : Role.coll },
           { val : q, role : Role.q },
           { val : opt, role : Role.opt },
-          { val : meta, role : Role.meta },
-          { val : ack, role : Role.ack }
+          { val : meta, role : Role.meta }
         ]
       );
       
@@ -111,11 +110,11 @@ io.on('connection', function (socket) {
     });
     
     
-
-
-
-
-
+    
+    
+    
+    
+    
     /**
     * insert  */
     socket.on(R.insert.toString,(coll, docs, opt, meta, ack) => {
@@ -127,8 +126,7 @@ io.on('connection', function (socket) {
           { val : coll, role : Role.coll },
           { val : docs, role : Role.docs },
           { val : opt, role : Role.opt },
-          { val : meta, role : Role.meta },
-          { val : ack, role : Role.ack }
+          { val : meta, role : Role.meta }
         ]
       );
       
@@ -150,25 +148,24 @@ io.on('connection', function (socket) {
     });
     
     
-
-
-
-
-
+    
+    
+    
+    
+    
     /**
     * update  */
     socket.on(R.update.toString,(coll, q, u, opt, meta, ack) => {
       if(!compiler.isValidACK(ack)) 
         return emitNoackCallbackError(socket);
-
+      
       let status = compiler.check(
         R.update.toString,[
           { val : coll, role : Role.coll },
           { val : q, role : Role.q },
           { val : u, role : Role.u },
           { val : opt, role : Role.opt },
-          { val : meta, role : Role.meta },
-          { val : ack, role : Role.ack }
+          { val : meta, role : Role.meta }
         ]
       );
       
@@ -189,31 +186,30 @@ io.on('connection', function (socket) {
       //end : socket.on('update
     });
     
-
-
-
-
-
+    
+    
+    
+    
+    
     
     /**
     * remove  */
     socket.on(R.remove.toString,(coll, q, opt, meta, ack) => {
       if(!compiler.isValidACK(ack)) 
         return emitNoackCallbackError(socket);
-
+      
       let status = compiler.check(
         R.remove.toString,[
           { val : coll, role : Role.coll },
           { val : q, role : Role.q },
           { val : opt, role : Role.opt },
-          { val : meta, role : Role.meta },
-          { val : ack, role : Role.ack }
+          { val : meta, role : Role.meta }
         ]
       );
       
       if(!status.valid)
         return reply(R.remove.toString,ack,status.error)
-       
+      
       regina.get(coll).remove(q,opt)
       .then((res) => {
         reply(R.remove.toString,ack,null,res)
@@ -247,28 +243,45 @@ io.on('connection', function (socket) {
   * It is not important to execute notifyFollowers before the reply's callback.
   * We are already sure that the result of the write action is ready */
   const notifyFollowers = (op,socket,res,ctx) => {
-    let meta = ctx.meta
-    if(isTaged(meta))
-      socket.broadcast.emit(meta.tag,op,res,ctx);
+    let meta = utils.soften(ctx.meta)
+    console.log("meta", meta)
+    let tags = Type.arr.valid(meta.tags) ? meta.tags : []
+    console.log("tags", tags)
+    for(tag of tags) {
+      let val = tag.val
+      let kind = tag.kind
+      console.log("tag-kind", kind)
+      console.log("tag-val", val)
+      switch(kind) {
+        case "emit":{
+          socket.emit(val,op,res,ctx); 
+          return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+        }
+        case "broadcast": {
+          socket.broadcast.emit(val,op,res,ctx);
+          return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+        }
+        case "io": {
+          io.emit(val,op,res,ctx); 
+          return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+        }
+        default: {
+          socket.broadcast.emit(val,op,res,ctx);
+          return console.log('notifyFollowers : ','broadcast', 'of \''+val+'\'')
+        }
+      } 
+    }
   }
   
   
   const emitNoackCallbackError = (socket) => {
+    console.log("Invalid request : ack callback is not defined.")
     socket.emit(
       'regina_noack_callback_error',
       "Error : no ack callback provided. "
       +"Can't send request acknoledgement : request canceled."
     );
   }
-  
-  
-  const isTaged = (meta) => {
-    console.log("isTaged0",typeof(meta)); //debug TODO rem in prod
-    if(typeof(meta) !== 'object') return false
-      console.log("isTaged1",utils.soften(meta).tag != null);
-    return utils.soften(meta).tag != null //debug TODO rem in prod
-  }
-  
   
   
   

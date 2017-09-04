@@ -25,11 +25,11 @@ exports.check = (method,params) => {
     
     for (const type of typeArray){
       if(type.valid(val)){
-        console.log(typeArray,val,"VALID")//debug
+        console.log(type.toString,val,'VALID')//debug
         isParamValid = true
         break;
       }else 
-      console.log(typeArray,val,"NOT VALID")//debug
+      console.log(type.toString,val,'NOT VALID')//debug
     }
     
     if(!isParamValid){
@@ -46,7 +46,7 @@ exports.check = (method,params) => {
   }
   
   
-  console.log('status',status)//debug
+  console.log('request_status',status)//debug
   return status
 }
 
