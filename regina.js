@@ -234,7 +234,7 @@ io.on('connection', function (socket) {
   const reply=(method,ack,err,res,ctx) => {
     ack(err,res,ctx);
     if(debug)
-      console.log("<- '"+method+"'","replied :[\n",err,res,"\n]")
+      console.log("<- '"+method+"'","replied :[\n",err,res,ctx,"\n]")
   }
   
   
