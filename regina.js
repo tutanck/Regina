@@ -54,19 +54,18 @@ io.on('connection', function (socket) {
         { val : meta, role : Role.meta }
       ]);
       
+      let ctx = {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      
       if(!status.valid)
-        return reply(R.find.toString,ack,status.error)
+        return reply(R.find.toString,ack,status.error,null,ctx)
       
       regina.get(coll).find(q,opt)
       .then((res) => {
-        reply(R.find.toString,ack,null,res)
+        reply(R.find.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(
-          R.find.toCRUD,socket,res,
-          {"coll":coll,"q":q,"opt":opt,"meta":meta}
-        )
+        notifyFollowers(R.find.toCRUD,socket,res,ctx)
       }).catch((e) =>{
-        reply(R.find.toString,ack,e)
+        reply(R.find.toString,ack,e,null,ctx)
       });
       //end : socket.on('find
     });
@@ -92,19 +91,18 @@ io.on('connection', function (socket) {
         ]
       );
       
+      let ctx = {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      
       if(!status.valid)
-        return reply(R.count.toString,ack,status.error)    
+        return reply(R.count.toString,ack,status.error,null,ctx)  
       
       regina.get(coll).count(q,opt)
       .then((res) => {
-        reply(R.count.toString,ack,null,res)
+        reply(R.count.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(
-          R.count.toCRUD,socket,res,
-          {"coll":coll,"q":q,"opt":opt,"meta":meta}
-        )
+        notifyFollowers(R.count.toCRUD,socket,res,ctx)
       }).catch((e) =>{
-        reply(R.count.toString,ack,e)
+        reply(R.count.toString,ack,e,null,ctx)
       });
       //end : socket.on('count
     });
@@ -129,22 +127,21 @@ io.on('connection', function (socket) {
           { val : meta, role : Role.meta }
         ]
       );
-            
+      
+      let ctx = {"coll":coll,"docs":docs,"opt":opt,"meta":meta}
+      
       if(!status.valid)
-        return reply(R.insert.toString,ack,status.error)
+        return reply(R.insert.toString,ack,status.error,null,ctx)
       
       utils.timestamp(docs) //Server side timestamp is much more reliable 
-
+      
       regina.get(coll).insert(docs,opt)
       .then((res) => {
-        reply(R.insert.toString,ack,null,res)
+        reply(R.insert.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(
-          R.insert.toCRUD,socket,res,
-          {"coll":coll,"docs":docs,"opt":opt,"meta":meta}
-        )
+        notifyFollowers(R.insert.toCRUD,socket,res,ctx)    
       }).catch((e) =>{
-        reply(R.insert.toString,ack,e)
+        reply(R.insert.toString,ack,e,null,ctx)
       });
       //end : socket.on('insert
     });
@@ -171,21 +168,20 @@ io.on('connection', function (socket) {
         ]
       );
       
+      let ctx = {"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
+      
       if(!status.valid)
-        return reply(R.update.toString,ack,status.error)
-
+        return reply(R.update.toString,ack,status.error,null,ctx)
+      
       utils.timestamp(u) //Server side timestamp is much more reliable 
       
       regina.get(coll).update(q,u,opt)
       .then((res) => {
-        reply(R.update.toString,ack,null,res)
+        reply(R.update.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(
-          R.update.toCRUD,socket,res,
-          {"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
-        )
+        notifyFollowers(R.update.toCRUD,socket,res,ctx)
       }).catch((e) =>{
-        reply(R.update.toString,ack,e)
+        reply(R.update.toString,ack,e,null,ctx)
       });
       //end : socket.on('update
     });
@@ -211,19 +207,18 @@ io.on('connection', function (socket) {
         ]
       );
       
+      let ctx = {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      
       if(!status.valid)
-        return reply(R.remove.toString,ack,status.error)
+        return reply(R.remove.toString,ack,status.error,null,ctx)
       
       regina.get(coll).remove(q,opt)
       .then((res) => {
-        reply(R.remove.toString,ack,null,res)
+        reply(R.remove.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(
-          R.remove.toCRUD,socket,res,
-          {"coll":coll,"q":q,"opt":opt,"meta":meta}
-        )
+        notifyFollowers(R.remove.toCRUD,socket,res,ctx)
       }).catch((e) =>{
-        reply(R.remove.toString,ack,e)
+        reply(R.remove.toString,ack,e,null,ctx)
       });
       //end : socket.on('remove
     });
@@ -236,8 +231,8 @@ io.on('connection', function (socket) {
   
   
   //utilities
-  const reply=(method,ack,err,res) => {
-    ack(err,res);
+  const reply=(method,ack,err,res,ctx) => {
+    ack(err,res,ctx);
     if(debug)
       console.log("<- '"+method+"'","replied :[\n",err,res,"\n]")
   }
