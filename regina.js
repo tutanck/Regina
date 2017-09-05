@@ -54,7 +54,7 @@ io.on('connection', function (socket) {
         { val : meta, role : Role.meta }
       ]);
       
-      let ctx = {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      let ctx = {"op":R.find.toCRUD,"coll":coll,"q":q,"opt":opt,"meta":meta}
       
       if(!status.valid)
         return reply(R.find.toString,ack,status.error,null,ctx)
@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
       .then((res) => {
         reply(R.find.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(R.find.toCRUD,socket,res,ctx)
+        notifyFollowers(socket,res,ctx)
       }).catch((e) =>{
         reply(R.find.toString,ack,e,null,ctx)
       });
@@ -91,7 +91,7 @@ io.on('connection', function (socket) {
         ]
       );
       
-      let ctx = {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      let ctx = {"op":R.count.toCRUD,"coll":coll,"q":q,"opt":opt,"meta":meta}
       
       if(!status.valid)
         return reply(R.count.toString,ack,status.error,null,ctx)  
@@ -100,7 +100,7 @@ io.on('connection', function (socket) {
       .then((res) => {
         reply(R.count.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(R.count.toCRUD,socket,res,ctx)
+        notifyFollowers(socket,res,ctx)
       }).catch((e) =>{
         reply(R.count.toString,ack,e,null,ctx)
       });
@@ -128,7 +128,7 @@ io.on('connection', function (socket) {
         ]
       );
       
-      let ctx = {"coll":coll,"docs":docs,"opt":opt,"meta":meta}
+      let ctx = {"op":R.insert.toCRUD,"coll":coll,"docs":docs,"opt":opt,"meta":meta}
       
       if(!status.valid)
         return reply(R.insert.toString,ack,status.error,null,ctx)
@@ -139,7 +139,7 @@ io.on('connection', function (socket) {
       .then((res) => {
         reply(R.insert.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(R.insert.toCRUD,socket,res,ctx)    
+        notifyFollowers(socket,res,ctx)    
       }).catch((e) =>{
         reply(R.insert.toString,ack,e,null,ctx)
       });
@@ -168,7 +168,7 @@ io.on('connection', function (socket) {
         ]
       );
       
-      let ctx = {"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
+      let ctx = {"op":R.update.toCRUD,"coll":coll,"q":q,"u":u,"opt":opt,"meta":meta}
       
       if(!status.valid)
         return reply(R.update.toString,ack,status.error,null,ctx)
@@ -179,7 +179,7 @@ io.on('connection', function (socket) {
       .then((res) => {
         reply(R.update.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(R.update.toCRUD,socket,res,ctx)
+        notifyFollowers(socket,res,ctx)
       }).catch((e) =>{
         reply(R.update.toString,ack,e,null,ctx)
       });
@@ -207,7 +207,7 @@ io.on('connection', function (socket) {
         ]
       );
       
-      let ctx = {"coll":coll,"q":q,"opt":opt,"meta":meta}
+      let ctx = {"op":R.remove.toCRUD,"coll":coll,"q":q,"opt":opt,"meta":meta}
       
       if(!status.valid)
         return reply(R.remove.toString,ack,status.error,null,ctx)
@@ -216,7 +216,7 @@ io.on('connection', function (socket) {
       .then((res) => {
         reply(R.remove.toString,ack,null,res,ctx)
         //  ||
-        notifyFollowers(R.remove.toCRUD,socket,res,ctx)
+        notifyFollowers(socket,res,ctx)
       }).catch((e) =>{
         reply(R.remove.toString,ack,e,null,ctx)
       });
@@ -241,7 +241,7 @@ io.on('connection', function (socket) {
   /**
   * It is not important to execute notifyFollowers before the reply's callback.
   * We are already sure that the result of the write action is ready */
-  const notifyFollowers = (op,socket,res,ctx) => {
+  const notifyFollowers = (socket,res,ctx) => {
     let meta = utils.soften(ctx.meta)
     console.log("meta", meta) //debug
     let tags = Type.arr.valid(meta.tags) ? meta.tags : []
@@ -253,19 +253,19 @@ io.on('connection', function (socket) {
       console.log("tag-val", val) //debug
       switch(kind) {
         case "emit":{
-          socket.emit(val,op,res,ctx); 
+          socket.emit(val,res,ctx); 
           return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
         }
         case "broadcast": {
-          socket.broadcast.emit(val,op,res,ctx);
+          socket.broadcast.emit(val,res,ctx);
           return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
         }
         case "io": {
-          io.emit(val,op,res,ctx); 
+          io.emit(val,res,ctx); 
           return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
         }
         default: {
-          socket.broadcast.emit(val,op,res,ctx);
+          socket.broadcast.emit(val,res,ctx);
           return console.log('notifyFollowers : ','broadcast', 'of \''+val+'\'')
         }
       } 

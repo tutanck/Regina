@@ -11,18 +11,18 @@
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
     socket.emit(
-    'count'
+    'update'
     ,'user_profiles'
     ,{"a":1}//,{"b":2},{"c":3},{"a":1, "lol":2}]
-    //,{}
+    ,{}
     ,{}
     ,{"tags":[{"val" : "#luffy"}]}
     ,(err,res,ctx)=>{
       console.log(err,res,ctx);
     });
     
-    socket.on('#luffy', (op, res, ctx) => {
-      console.log('#luffy',op,res,ctx)
+    socket.on('#luffy', (res, ctx) => {
+      console.log('#luffy',res,ctx)
     });
     
     
