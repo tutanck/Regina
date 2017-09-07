@@ -133,8 +133,6 @@ io.on('connection', function (socket) {
       if(!status.valid)
         return reply(R.insert.toString,ack,status.error,null,ctx)
       
-      utils.timestamp(docs) //Server side timestamp is much more reliable 
-      
       regina.get(coll).insert(docs,opt)
       .then((res) => {
         reply(R.insert.toString,ack,null,res,ctx)
@@ -172,8 +170,6 @@ io.on('connection', function (socket) {
       
       if(!status.valid)
         return reply(R.update.toString,ack,status.error,null,ctx)
-      
-      utils.timestamp(u) //Server side timestamp is much more reliable 
       
       regina.get(coll).update(q,u,opt)
       .then((res) => {
