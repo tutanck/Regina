@@ -4,6 +4,12 @@ Enums of available Regina services
 
 var CRUD = require('./CRUD')
 
+
+exports.aggregate = {
+  toString: 'aggregate',
+  toCRUD: CRUD.MULTI
+};
+
 exports.insert = {
   toString: 'insert',
   toCRUD: CRUD.CREATE

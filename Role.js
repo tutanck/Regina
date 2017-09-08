@@ -24,6 +24,11 @@ exports.u = {
   type: [Type.obj]
 };
 
+exports.p = {
+  toString: 'p',
+  type: [Type.arr]
+};
+
 exports.opt = {
   toString: 'opt',
   type: [Type.optobj]

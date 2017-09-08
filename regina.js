@@ -39,6 +39,47 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function(){
     console.log('Regina : socket \''+socket.id+'\' just disconnected');
   });
+
+
+
+/**
+  * aggregate  */
+  socket.on(R.aggregate.toString,(coll, p, opt, meta, ack) => {
+    if(!compiler.isValidACK(ack)) 
+      return emitNoackCallbackError(socket);
+    
+    let status = compiler.check(
+      R.aggregate.toString,[
+        { val : coll, role : Role.coll },
+        { val : p, role : Role.p },
+        { val : opt, role : Role.opt },
+        { val : meta, role : Role.meta }
+      ]);
+      
+      let ctx = {"op":R.aggregate.toCRUD,"coll":coll,"p":p,"opt":opt,"meta":meta}
+      
+      if(!status.valid)
+        return reply(R.aggregate.toString,ack,status.error,null,ctx)
+      
+      regina.get(coll).aggregate(p,opt)
+      .then((res) => {
+        reply(R.aggregate.toString,ack,null,res,ctx)
+        //  ||
+        notifyFollowers(socket,res,ctx)
+      }).catch((e) =>{
+        reply(R.aggregate.toString,ack,e,null,ctx)
+      });
+      //end : socket.on('aggregate
+    });
+
+
+
+
+
+
+
+
+
   
   /**
   * find  */
