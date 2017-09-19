@@ -298,9 +298,9 @@ io.on('connection', function (socket) {
             io.emit(val,res,ctx); 
             return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
           }
-          default: {
-            socket.broadcast.emit(val,res,ctx);
-            return console.log('notifyFollowers : ','broadcast', 'of \''+val+'\'')
+          default: { //All by default
+            io.emit(val,res,ctx); 
+            return console.log('notifyFollowers : ','io', 'of \''+val+'\'')
           }
         } 
       }

@@ -11,10 +11,10 @@
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
     socket.emit(
-    'aggregate'
-    ,'user_profiles'
-    ,[{"a":1},{"b":2},{"c":3},{"a":1, "lol":2}]
-    //,{}
+    'update'
+    ,'test'
+    ,{}//[{"a":1},{"b":2},{"c":3},{"a":1, "lol":2}]
+    ,{"a":3}
     ,{}
     ,{"tags":[{"val" : "#luffy"}]}
     ,(err,res,ctx)=>{
@@ -23,6 +23,10 @@
     
     socket.on('#luffy', (res, ctx) => {
       console.log('#luffy',res,ctx)
+    });
+
+    socket.on('#test/59bffef6ec22b00b725f20de/username', (res, ctx) => {
+      console.log('#test/59bffef6ec22b00b725f20de/username',res,ctx)
     });
     
     
