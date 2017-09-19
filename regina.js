@@ -288,19 +288,23 @@ io.on('connection', function (socket) {
         switch(kind) {
           case "emit":{
             socket.emit(val,res,ctx); 
-            return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+            console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+            break
           }
           case "broadcast": {
             socket.broadcast.emit(val,res,ctx);
-            return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+            console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+            break
           }
           case "io": {
             io.emit(val,res,ctx); 
-            return console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+            console.log('notifyFollowers : ',kind, 'of \''+val+'\'')
+            break
           }
           default: { //All by default
             io.emit(val,res,ctx); 
-            return console.log('notifyFollowers : ','io', 'of \''+val+'\'')
+            console.log('notifyFollowers : ','io', 'of \''+val+'\'')
+            break
           }
         } 
       }
