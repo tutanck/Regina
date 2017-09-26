@@ -11,10 +11,9 @@
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
     socket.emit(
-    'update'
-    ,'test'
-    ,{}//[{"a":1},{"b":2},{"c":3},{"a":1, "lol":2}]
-    ,{"a":3}
+    'insert'
+    ,'regina-test_59cae04a73eef20869ccbff5'//reserved collection for starting test! Please do not use this collection name.
+    ,{"regina":"mongodb acces is ok!", "date":new Date()}
     ,{}
     ,{"tags":[{"val" : "#luffy"}]}
     ,(err,res,ctx)=>{
@@ -22,14 +21,9 @@
     });
     
     socket.on('#luffy', (res, ctx) => {
-      console.log('#luffy',res,ctx)
-    });
-
-    socket.on('#test/59bffef6ec22b00b725f20de/username', (res, ctx) => {
-      console.log('#test/59bffef6ec22b00b725f20de/username',res,ctx)
-    });
-    
-    
+      console.log(res,ctx)
+      console.log('Regina starting test : everything is ok!');
+    });    
     
   </script>
   <body></body>

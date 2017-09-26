@@ -1,8 +1,9 @@
 //Config
-var port = 3009;
 var discreet = false;
 var debug = true;
-var db = 'localhost:27017/reginadb'; //TODO : configurable
+
+var db = process.argv[2]?process.argv[2]:'localhost:27017/reginadb';
+var port = process.argv[3]?process.argv[3]:30958;
 
 //express http server
 var app = require('express')();
@@ -21,14 +22,13 @@ var utils = require('./utils')
 var compiler = require('./compiler')
 
 
-
 //regina
 var regina = monk(db); //database handler
 
-//Home page //TODO
+//Home page
 app
 .get('/', function(req, res){
-  res.sendfile(discreet ? 'index.html' : 'index.html'); //TODO : discreet.html(white page)
+  res.sendfile(discreet ? 'index.html' : 'index.html'); 
 });
 
 
@@ -327,7 +327,7 @@ io.on('connection', function (socket) {
     app
     .use(function(req, res, next){
       res.setHeader('Content-Type', 'text/plain');
-      res.send(404, 'Not Found !'); //TODO : 404.html
+      res.send(404, 'Not Found !'); 
     });
     
     
