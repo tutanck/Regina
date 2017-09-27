@@ -32,7 +32,7 @@
 
 ### Client side
 
-> import [socket.io client](https://socket.io/blog/) and follow this step by step instructions : 
+> import [socket.io client](https://socket.io/blog/) and follow these step by step instructions : 
 1. creates a socket instance with the regina server address :
 `var socket = io('http://localhost:3009/');`
 2. sends requests to the regina server using one of these type of requests :
