@@ -34,7 +34,7 @@
 
 > import [socket.io client](https://socket.io/blog/) and follow these instructions : 
 1. create a socket instance with the regina server address :
-`var socket = io('http://localhost:3009/');`
+* `var socket = io('http://localhost:3009/');`
 2. send requests to the regina server using one of these type of requests :
 * `socket.emit('insert', collection, docs, options, meta, ack);`
 * `socket.emit('find', collection, query, options, meta, ack);`
