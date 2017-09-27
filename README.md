@@ -84,7 +84,7 @@ try {
  ```
  
  > follow the tag "#luffy" and be aware of any request received by the server with this tag
- 
+ ```
  IO.socket.on("#luffy", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
