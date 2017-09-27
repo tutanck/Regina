@@ -18,13 +18,13 @@
 
 ### Server side
 
-> run with the default settings (`db='localhost:27017/reginadb'` and `port=3009`) : 
+> Run with the default settings (`db='localhost:27017/reginadb'` and `port=3009`) : 
 1. `mongod`
 2. `node regina.js`
 3. open your browser at `localhost:3009` and check that you are on the regina home page. 
 
 
-> run with custom settings :
+> Run with custom settings :
 1. `mongod --port 2540`
 2. `node regina.js 'localhost:2540/mydb' 6980` 
 3. open your browser at `localhost:6980` check that you are on the regina home page.
@@ -77,12 +77,11 @@ Client (index.html)
 In the `meta` parameter, simply add an object containing the `tags` key and an array of objects each containing the `val` key.
 * `{"tags":[{"val":"find-users"}, {"val":"@users-coll"}, {"val":"#users"}]}`
 
-You can also specify the `kind` (scope) for each tag : 
+> You can also specify the `kind` (scope) for each tag : 
 * `{"tags":[{"val":"find-users","kind":"emit"}, {"val":"#users","kind":"broadcast"}]}`
 
-There are 3 kinds of scopes:
+> There are 3 kinds of scopes:
 * `emit` : sends a message only to the client that sent the request to the server.
 * `broadcast` : sends a message to all connected clients except the client that sent the request to the server.
 * `io` : sends a message to all connected clients including the client that sent the request to the server.
-
 By default the scope is `io`.
