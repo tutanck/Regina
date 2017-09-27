@@ -32,7 +32,7 @@
 
 ### Client side
 
-> import [socket.io client](https://socket.io/blog/) and follow these instructions : 
+> Import [socket.io client](https://socket.io/blog/) and follow these instructions : 
 1. create a socket instance with the regina server address :
 * `var socket = io('http://localhost:3009/');`
 2. send requests to the regina server using one of these type of requests :
@@ -42,6 +42,8 @@
 * `socket.emit('update', collection, update, options, meta, ack);`
 * `socket.emit('remove', collection, query, options, meta, ack);`
 * `socket.emit('aggregate', collection, pipeline, options, meta, ack);`
+
+> It is also possible to use [IOS](https://github.com/socketio/socket.io-client-swift) and [Java](https://github.com/socketio/socket.io-client-java) clients
 
 #### Example 
 
