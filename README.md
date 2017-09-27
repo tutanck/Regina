@@ -1,6 +1,6 @@
 # Regina : Real-time database using mongoDB and Socket.io
 
-* Regina allows you to run mongo methods : 
+* Regina allows you to run mongodb methods : 
 > 'insert', 'find', 'update', 'delete', 'count', 'aggregate' directly from the client side (as with firebase).
 * Regina can track tags based events and send back messages to CLIs subscribed to these tags.
 * Regina comes with a Java CLI.
