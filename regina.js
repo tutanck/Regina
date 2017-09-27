@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 //Config
 var discreet = false;
 var debug = true;
