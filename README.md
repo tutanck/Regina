@@ -69,7 +69,7 @@ Client (index.html)
   </script>
 ```
 
-#### use of tags
+#### Use of tags
 
 > You can use any tag you want except socket.io **[reserved events](https://socket.io/docs/emit-cheatsheet/#)**.
 In the `meta` parameter, simply add an object containing the `tags` key and an array of objects each containing the `val` key.
