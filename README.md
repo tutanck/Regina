@@ -48,7 +48,6 @@ public class IO implements Regina.SocketClientEventDelegate {
         }
     }
 
-
     public void handle(Regina.SocketClientEvent clientEvent){
         System.out.println("socketClientEvent",clientEvent.toString());
     }
@@ -56,7 +55,6 @@ public class IO implements Regina.SocketClientEventDelegate {
     public void handle(Regina.ReginaEvent reginaEvent, String message){
         System.out.println("reginaEvent",reginaEvent.toString()+" : "+message);
     }
-
 }
 ```
 
@@ -95,7 +93,7 @@ try {
                     e.printStackTrace();
                 }
             }
-        });
+ });
  
  
         
