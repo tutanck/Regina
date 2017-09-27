@@ -7,7 +7,7 @@
 
 ## Installation
 
-`npm install --save regina`
+`npm install regina`
 
 ## Usage
 
