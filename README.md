@@ -33,9 +33,9 @@
 ### Client side
 
 > import [socket.io client](https://socket.io/blog/) and follow these instructions : 
-1. creates a socket instance with the regina server address :
+1. create a socket instance with the regina server address :
 `var socket = io('http://localhost:3009/');`
-2. sends requests to the regina server using one of these type of requests :
+2. send requests to the regina server using one of these type of requests :
 * `socket.emit('insert', collection, docs, options, meta, ack);`
 * `socket.emit('find', collection, query, options, meta, ack);`
 * `socket.emit('count', collection, query, options, meta, ack);`
@@ -51,6 +51,7 @@ Client (index.html)
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
   <script>
+    //create a socket instance with the regina server address 
     var socket = io('http://localhost:3009/');
     
     //be aware of the misuse of regina methods
