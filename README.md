@@ -2,8 +2,8 @@
 
 * Regina allows you to run mongo methods : 
 > 'insert', 'find', 'update', 'delete', 'count', 'aggregate' directly from the client side (as with firebase).
-* Regina can track events at the database level using keywords and send back messages to CLIs subscribed to these keywords.
-* Regina comes with a Java and JS CLI.
+* Regina can track keywords based events and send back messages to CLIs subscribed to these keywords.
+* Regina comes with a Java and a JS CLI.
 
 ## Installation
 
