@@ -17,14 +17,14 @@
 1. mongod
 2. `node regina.js`
 3. open your browser at localhost:3009 and check that you are on the regina home page. 
-4. use one of the JAVA CLI to send requests to database in real-time from the client side.
+4. use the JAVA CLI to send requests to database in real-time from the client side.
 
 
 * run with custom settings :
 1. mongod --port 2540
 2. `node regina.js 'localhost:2540/mydb' 6980` 
 3. open your browser at localhost:6980 check that you are on the regina home page.
-4. use one of the JAVA CLI to send requests to database in real-time from the client side.
+4. use the JAVA CLI to send requests to database in real-time from the client side.
 
 
 ### JAVA_CLI
