@@ -63,16 +63,16 @@ public class IO implements Regina.SocketClientEventDelegate {
 try {
             IO.r.find(
                     "users"
-                    , new JSONObject().put("username", "luffy")
+                    , new JSONObject().put("username", "Monkey D")
                     , new JSONObject().put(username, 1).put("_id", 0)
                     , new JSONObject().put("val","#luffy").put("kind", "io")
                     , new Ack() {
                         @Override
                         public void call(Object... args) {
                             if (args[0] != null)
-                                System.out.println("result: " + args[1]);
-                            else
                                 System.out.println("error : " + args[0] + " context :" + args[2]);
+                            else
+                                System.out.println("result: " + args[1]);
                         }
                     }
             );
