@@ -1,7 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head><title>Regina</title></head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <h1>Regina<h1>
+    <script>
+    var socket = io('http://localhost:3009/');
+    
+    //be aware of the misuse of regina methods
+    socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
+    
+    //sends a find request to the regina server
+    socket.emit('find', 'users', {}, {"username":1}, {"tags":[{"val" : "find-users"}]} 
+      ,(err,res,ctx)=>{ console.log(err,res,ctx);}
+    );
+    
+    //follow the tag `find-users`
+    socket.on('find-users', (res, ctx) => {
+      console.log(res,ctx);
+    });    
+  </script>
 <body></body>
 </html>
   
