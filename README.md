@@ -57,7 +57,7 @@ Client (index.html)
     //be aware of the misuse of regina methods
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
-    //sends a find request to the regina server
+    //send a find request to the regina server
     socket.emit('find', 'users', {}, {"username":1}, {"tags":[{"val" : "find-users"}]} 
       ,(err,res,ctx)=>{ console.log(err,res,ctx);}
     );
