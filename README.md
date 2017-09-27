@@ -1,8 +1,10 @@
 # Regina : Real-time database using mongoDB and Socket.io
 
 * Regina allows you to run mongodb methods : 
-`'insert'`, `'find'`, `'update'`, `'delete'`, `'count'`, `'aggregate'` directly from the client side (as with firebase).
+`'insert'`, `'find'`, `'update'`, `'delete'`, `'count'`, and `'aggregate'` directly from the client side (as with firebase).
+
 * Regina can track `tags` based events and send back messages containing the `result` of the requests and their `context` to client's sockets subscribed to these tags.
+
 * Regina uses [Socket.IO](https://socket.io/) for client-server communication and event tracking.
 
 
@@ -46,12 +48,8 @@
 Client (index.html) 
 
 ```
-<!DOCTYPE html>
-<html>
-<head><title>Test</title></head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
-<h1>Test<h1>
   <script>
     var socket = io('http://localhost:3009/');
     
@@ -59,22 +57,29 @@ Client (index.html)
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
     //sends a find request to the regina server
-    socket.emit(
-    'find'
-    ,'regina-tests'
-    ,{} 
-    ,{"username":1}
-    ,{"tags":[{"val" : "find-users"}]} 
-    ,(err,res,ctx)=>{ 
-      console.log(err,res,ctx);
-    });
+    socket.emit('find', 'users', {}, {"username":1}, {"tags":[{"val" : "find-users"}]} 
+      ,(err,res,ctx)=>{ console.log(err,res,ctx);}
+    );
     
     //follow the tag `find-users`
     socket.on('find-users', (res, ctx) => {
       console.log(res,ctx);
     });    
   </script>
-  <body></body>
-  </html>
 ```
-        
+
+#### use of tags
+
+> You can use any tag you want except socket.io **[reserved events](https://socket.io/docs/emit-cheatsheet/#)**.
+In the `meta` parameter, simply add an object containing the `tags` key and an array of objects each containing the `val` key.
+* `{"tags":[{"val":"find-users"}, {"val":"@users-coll"}, {"val":"#users"}]}`
+
+You can also specify the `kind` (scope) for each tag : 
+* `{"tags":[{"val":"find-users","kind":"emit"}, {"val":"#users","kind":"broadcast"}]}`
+
+There are 3 kinds of scope:
+* `emit` : sends a message only to the client that sent the request to the server.
+* `broadcast` : sends a message to all connected clients except the client that sent the request to the server.
+* `io` : sends a message to all connected clients including the client that sent the request to the server.
+
+By default the scope is `io`.
