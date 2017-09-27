@@ -3,7 +3,7 @@ var discreet = false;
 var debug = true;
 
 var db = process.argv[2]?process.argv[2]:'localhost:27017/reginadb';
-var port = process.argv[3]?process.argv[3]:30958;
+var port = process.argv[3]?process.argv[3]:3009;
 
 //express http server
 var app = require('express')();
