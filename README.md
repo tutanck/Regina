@@ -24,9 +24,9 @@
 
 
 > Run with custom settings :
-1. `mongod --port 2540`
-2. `regina 'localhost:2540/mydb' 6980` 
-3. open your browser at `localhost:6980` check that you are on the regina home page.
+1. `mongod --port 5000`
+2. `regina 'localhost:5000/mydb' 6000` 
+3. open your browser at `localhost:6000` check that you are on the regina home page.
 
 
 ### Client side
