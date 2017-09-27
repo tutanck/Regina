@@ -87,7 +87,7 @@ try {
             @Override
             public void call(Object... args) {
                 try {
-                    if (((JSONObject) args[1]).getInt("op") == 2) //update
+                    if (((JSONObject) args[1]).getInt("op") == 2)
                         System.out.println("result : "+args[0]+" context : "+args[1]);
                 } catch (JSONException e) {
                     e.printStackTrace();
