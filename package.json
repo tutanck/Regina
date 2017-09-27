@@ -1,12 +1,28 @@
 {
   "name": "regina",
   "version": "0.0.0",
-  "description": "MongoDB firebase like",
+  "description": "Firebase like real-time database using MongoDB and Socket.IO",
   "main": "regina.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "tutanck",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tutanck/Regina"
+  },
+  "contributors": [
+    "tutanck <tutanck@gmail.com>"
+  ],
+  "keywords": [
+    "mongodb",
+    "mongo",
+    "socket.io",
+    "realtime",
+    "database",
+    "firebase",
+    "regina"
+  ],
   "license": "ISC",
   "dependencies": {
     "express": "~4.15.4",
