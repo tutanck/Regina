@@ -61,10 +61,10 @@ public class IO implements Regina.SocketClientEventDelegate {
 > use the IO singleton to get regina CLI instance and make requests to the regina server
 ```
 try {
-            IO.r.find(
+            IO.r.insert(
                     "users"
-                    , new JSONObject().put("username", "Monkey D")
-                    , new JSONObject().put(username, 1).put("_id", 0)
+                    , new JSONObject().put("username", "Monkey D. Luffy")
+                    , new JSONObject()
                     , new JSONObject().put("val","#luffy").put("kind", "io")
                     , new Ack() {
                         @Override
