@@ -78,7 +78,7 @@ In the `meta` parameter, simply add an object containing the `tags` key and an a
 You can also specify the `kind` (scope) for each tag : 
 * `{"tags":[{"val":"find-users","kind":"emit"}, {"val":"#users","kind":"broadcast"}]}`
 
-There are 3 kinds of scope:
+There are 3 kinds of scopes:
 * `emit` : sends a message only to the client that sent the request to the server.
 * `broadcast` : sends a message to all connected clients except the client that sent the request to the server.
 * `io` : sends a message to all connected clients including the client that sent the request to the server.
