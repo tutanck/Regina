@@ -38,7 +38,7 @@
 * `socket.emit('insert', collection, docs, options, meta, ack);`
 * `socket.emit('find', collection, query, options, meta, ack);`
 * `socket.emit('count', collection, query, options, meta, ack);`
-* `socket.emit('update', collection, update, options, meta, ack);`
+* `socket.emit('update', collection, query, update, options, meta, ack);`
 * `socket.emit('remove', collection, query, options, meta, ack);`
 * `socket.emit('aggregate', collection, pipeline, options, meta, ack);`
 
@@ -58,12 +58,12 @@ JS Client (index.html)
     //be aware of the misuse of regina methods
     socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
     
-    //send a find request to the regina server
+    //send a find request to the regina server with the 'find-users' tag
     socket.emit('find', 'users', {}, {"username":1}, {"tags":[{"val" : "find-users"}]} 
       ,(err,res,ctx)=>{ console.log(err,res,ctx);}
     );
     
-    //follow the tag `find-users`
+    //follow the 'find-users' tag
     socket.on('find-users', (res, ctx) => {
       console.log(res,ctx);
     });    
