@@ -30,7 +30,7 @@ var regina = monk(db); //database handler
 //Home page
 app
 .get('/', function(req, res){
-  res.sendfile(discreet ? 'index.html' : 'index.html'); 
+  res.send(discreet ? '' : '<h1>Regina<h1>'); 
 });
 
 
