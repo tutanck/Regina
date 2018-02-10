@@ -8,6 +8,10 @@
 * Regina uses [Socket.IO](https://socket.io/) for client-server communication and event tracking.
 
 
+## How it works
+![alt text](https://github.com/tutanck/Regina/blob/master/example/Capture%20d%E2%80%99%C3%A9cran%202018-02-10%20%C3%A0%2015.16.42.png)
+
+
 ## Installation
 
 * `npm install -g regina`
