@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Regina</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<h1>Regina</h1>
+<script>
+  //create a socket instance with the regina server address 
+  var socket = io('http://localhost:3009/');
+
+  //be aware of the misuse of regina methods
+  socket.on('regina_noack_callback_error', (msg) => { console.log(msg); })
+
+  //follow the 'new-msg' tag
+  socket.on('new-msg', (res, ctx) => { console.log(res, ctx); });
+
+  //send an insert request to the regina server with the 'new-msg' tag
+  socket.emit('insert' //CRUD operation
+    , 'messages' //collection
+
+    //query|doc|pipeline
+    , { msg: "Hello Regina", sender: "Paris MongoDB User Group" }
+
+    , {} //mongo options
+
+    , { "tags": [{ "val" : "new-msg" }] }  //meta (tags)
+
+    , (err, res, ctx) => { console.log(err, res, ctx); } //ack (callback)
+  );
+</script>
+
+<body></body>
+
+</html>
