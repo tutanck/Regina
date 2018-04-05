@@ -21,4 +21,3 @@ coverage
 .editorconfig
 
 node_modules
-package-lock.json
