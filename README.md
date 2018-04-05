@@ -80,7 +80,7 @@
 </script>
 ```
 
-> [See the full example here.](https://github.com/tutanck/Regina/tree/master/example)
+> [See the full example here.](https://github.com/tutanck/Regina/blob/master/example/index.html)
 
 
 #### Use of tags
