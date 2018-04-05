@@ -5,9 +5,11 @@
 
 * Regina can track `tags` based events and send back messages containing the `result` of the requests and their `context` to client's sockets subscribed to these tags.
 
+* Regina uses [Socket.IO](https://socket.io/) for client-server communication and event tracking.
+
 
 ## How it works
-![alt text](https://github.com/tutanck/Regina/blob/master/example/Capture%20d%E2%80%99%C3%A9cran%202018-02-10%20%C3%A0%2015.16.42.png)
+![alt text](https://github.com/tutanck/Regina/blob/master/docs/How_It_Works.png)
 
 
 ## Installation
@@ -46,11 +48,9 @@
 
 > It is also possible to use [IOS](https://github.com/socketio/socket.io-client-swift) and [Java](https://github.com/socketio/socket.io-client-java) clients
 
-#### Examples 
 
-JS Client (index.html) 
+#### Example : JS Client (index.html) 
 
-##### Example : insert data
 ```JavaScript
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
@@ -79,6 +79,9 @@ JS Client (index.html)
   );
 </script>
 ```
+
+> [See the full example here.](https://github.com/tutanck/Regina/tree/master/example)
+
 
 #### Use of tags
 
