@@ -13,7 +13,6 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 //mongo stuffs
-var mongo = require('mongodb');
 var monk = require('monk');
 
 //internal machinery

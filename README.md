@@ -1,11 +1,9 @@
 # Regina : Real-time database using MongoDB and Socket.IO
 
-* Regina allows you to run MongoDB 
+* Regina allows to run MongoDB 
 `'insert'`, `'find'`, `'update'`, `'delete'`, `'count'`, and `'aggregate'` methods directly from the client side (such as firebase).
 
 * Regina can track `tags` based events and send back messages containing the `result` of the requests and their `context` to client's sockets subscribed to these tags.
-
-* Regina uses [Socket.IO](https://socket.io/) for client-server communication and event tracking.
 
 
 ## How it works
@@ -52,30 +50,7 @@
 
 JS Client (index.html) 
 
-##### Example 1 : find data
-```JavaScript
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
-  <script>
-    //create a socket instance with the regina server address 
-    var socket = io('http://localhost:3009/');
-    
-    //be aware of the misuse of regina methods
-    socket.on('regina_noack_callback_error', (msg)=>{console.log(msg);})
-    
-    //follow the 'find-users' tag
-    socket.on('find-users', (res, ctx) => {
-      console.log(res,ctx);
-    });
-
-    //send a find request to the regina server with the 'find-users' tag
-    socket.emit('find', 'users', {}, {"username":1}, {"tags":[{"val" : "find-users"}]} 
-      ,(err,res,ctx)=>{ console.log(err,res,ctx);}
-    );    
-  </script>
-```
-
-##### Example 2 : insert data
+##### Example : insert data
 ```JavaScript
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 

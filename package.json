@@ -1,6 +1,6 @@
 {
   "name": "regina",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Firebase like real-time database using MongoDB and Socket.IO",
   "main": "regina.js",
   "scripts": {
@@ -29,9 +29,8 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "express": "~4.15.4",
-    "mongodb": "~2.2.31",
-    "monk": "~6.0.3",
-    "socket.io": "~2.0.3"
+    "express": "^4.16.3",
+    "monk": "^6.0.5",
+    "socket.io": "^2.1.0"
   }
 }
