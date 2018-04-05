@@ -12,4 +12,7 @@ Thumbs.db
 /build
 /captures
 .externalNativeBuild
+.idea/modules.xml
+.idea/vcs.xml
+.idea
 node_modules

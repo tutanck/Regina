@@ -1,6 +1,12 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<!DOCTYPE html>
+<html>
 
-  <script>
+<head>
+  <title>Regina</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<h1>Regina</h1>
+<script>
   //create a socket instance with the regina server address 
   var socket = io('http://localhost:3009/');
 
@@ -19,8 +25,12 @@
 
     , {} //mongo options
 
-    , { "tags": [{ "val" : "new-msg" }] }  //meta (tags)
+    , { "tags": [{ "val": "new-msg" }] }//meta (tags)
 
     , (err, res, ctx) => { console.log(err, res, ctx); } //ack (callback)
   );
 </script>
+
+<body></body>
+
+</html>
